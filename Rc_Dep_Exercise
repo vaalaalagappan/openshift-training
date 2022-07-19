@@ -37,7 +37,6 @@ kubectl delete rc mysql -n <username of yours>
 kubectl get all -n <username of yours>
 
 ###########################################
-kubectl project <username of yours>
 vim dep.yaml
 apiVersion: apps/v1
 kind: Deployment
