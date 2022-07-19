@@ -1,0 +1,83 @@
+Make sure you are getting output of "kubectl get nodes" command
+
+========Replicationcontroller exercise and deployment exercise========
+===================================
+vim rc.yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: mysql
+  namespace: <username of yours>
+spec:
+  replicas: 5
+  selector:
+    app: mysql
+  template:
+    metadata:
+      name: mysqlpod
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysqlcontainer
+        image: quay.io/kushalsamota/mysql
+        env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: redhat
+                  
+save the file
+======================================
+kubectl create -f rc.yaml
+kubectl get all -n <username of yours>
+kubectl scale rc/mysql --replicas=10 -n <username of yours>
+kubectl get pods -n <username of yours>
+kubectl scale rc/mysql --replicas=1 -n <username of yours>
+kubectl get pods -n <username of yours>
+kubectl delete rc mysql -n <username of yours>
+kubectl get all -n <username of yours>
+
+###########################################
+kubectl project <username of yours>
+vim dep.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+  namespace: <username of yours>
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: quay.io/kushalsamota/nginx:1.14
+        ports:
+        - containerPort: 80
+        
+kubectl create -f dep.yaml
+kubectl get all -n <username of yours>
+kubectl set image deployment nginx-deployment nginx=quay.io/kushalsamota/nginx:1.14 --record -n <username of yours>
+kubectl rollout history deployment nginx-deployment -n <username of yours>
+kubectl get all -n <username of yours>
+kubectl set image deployment nginx-deployment nginx=quay.io/kushalsamota/nginx:1.15 --record -n <username of yours>
+kubectl rollout history deployment nginx-deployment -n <username of yours>
+kubectl get all -n <username of yours>
+kubectl set image deployment nginx-deployment nginx=quay.io/kushalsamota/nginx:1.16 --record -n <username of yours>
+kubectl rollout history deployment nginx-deployment -n <username of yours>
+
+kubectl get all -n <username of yours>
+kubectl set image deployment nginx-deployment nginx=quay.io/kushalsamota/nginx:1.17 --record -n <username of yours>
+kubectl rollout history deployment nginx-deployment -n <username of yours>
+kubectl get all -n <username of yours>
+kubectl rollout undo deployment nginx-deployment --to-revision=2 -n <username of yours>
+kubectl rollout history deployment nginx-deployment -n <username of yours>
+
+kubectl delete deployment nginx-deployment -n <username of yours>
