@@ -1,0 +1,100 @@
+#install kubectl procedure#
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(<kubectl.sha256)  kubectl" | sha256sum --check
+install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+kubectl get ns
+kubectl get nodes
+kubectl get nodes -o wide
+kubectl get nodes -o wide --show-labels
+kubectl get node master -o yaml > master.yaml
+kubectl create ns <username of yours>
+
+vim pod.yaml
+======================================
+apiVersion: v1
+kind: Pod
+metadata:
+        name: apachepod
+        namespace: <username of yours>
+        labels:
+                env: prod
+                app: apache
+spec:
+        containers:
+                - name: firstcontainer
+                  image: quay.io/kushalsamota/httpd
+                  
+=====================================
+kubectl create -f pod.yaml
+kubectl get pods
+kubectl get pods -o wide
+kubectl get pods --show-labels
+kubectl describe pod apachepod
+kubectl get pod apachepod -o yaml > pod1.yaml
+vim pod1.yaml
+exit from file
+kubectl delete pod apachepod
+kubectl get pods
+
+#########################################################
+vim pod.yaml
+===========================================
+apiVersion: v1
+kind: Pod
+metadata:
+        name: apachepod
+        namespace: <username of yours>
+        labels:
+                env: prod
+                app: apache
+spec:
+        containers:
+                - name: firstcontainer
+                  image: quay.io/kushalsamota/httpd
+                - name: secondcontainer
+                  image: quay.io/kushalsamota/mysql
+                  env:
+                          - name: MYSQL_ROOT_PASSWORD
+                            value: redhat
+==============================================
+save the file
+
+kubectl create -f pod.yaml
+kubectl get pods === two container will be running in a pod
+kubectl get pods -o wide
+kubectl describe pod apachepod
+kubectl exec -it apachepod -c secondcontainer bash
+exit
+kubectl logs apachepod -c firstcontainer
+kubectl logs apachepod -c secondcontainer
+kubectl delete pod apachepod
+kubectl get pods
+
+##################################################
+vim pod.yaml
+=============================================
+apiVersion: v1
+kind: Pod
+metadata:
+        name: apachepod
+        namespace: <username of yours>
+        labels:
+                env: prod
+                app: apache
+spec:
+        volumes:
+                - name: myvol
+                  emptyDir: {}
+        containers:
+                - name: firstcontainer
+                  image: quay.io/kushalsamota/httpd
+                  volumeMounts:
+                          - name: myvol
+                            mountPath: /usr/lkubectlal/apache2/htdkubectls
+========================================
+kubectl create -f pod.yaml
+kubectl get pods
+kubectl describe pod apachepod
+kubectl delete pod apachepod
