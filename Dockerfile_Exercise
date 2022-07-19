@@ -1,0 +1,105 @@
+yum install vim -y
+mkdir /apache
+cd /apache
+mkdir src
+echo hello > src/index.html
+touch Dockerfile
+vim Dockerfile
+FROM         quay.io/kushalsamota/centos:latest
+RUN             yum install httpd -y
+COPY           ./src      /var/www/html
+CMD            ["/usr/sbin/httpd","-D","FOREGROUND"]
+
+save the file
+docker build -t apache:v1 .
+docker run -d --name apachecontainer -p 80:80 apache:v1
+curl localhost
+docker rm -f apachecontainer
+docker rmi apache:v1
+
+#############################################
+mkdir /apache2
+cd /apache2
+mkdir src
+echo hello > src/index.html
+touch Dockerfile
+vim Dockerfile
+FROM         quay.io/kushalsamota/centos:latest
+MAINTAINER   kushalsamota kushalsamota@gmail.com
+LABEL        runinformation docker run -d imagename
+LABEL        info this is my testing image
+ENV          PORT 8080
+ENV          CITY udaipur
+RUN             yum install httpd -y
+COPY           ./src      /var/www/html
+CMD            ["/usr/sbin/httpd","-D","FOREGROUND"]
+
+save the file
+docker build -t apache:v1 .
+docker images
+docker inspect apache:v1 === see the env label author
+docker run -d --name apachecontainer -p 80:80 apache:v1
+docker exec -it apachecontainer bash
+env === see the env mentioned or not
+exit
+docker rm -f apachecontainer
+docker run -d --name apachecontainer -e PORT=80 -p 80:80 apache:v1
+docker exec -it apachecontainer bash
+env === see the env mentioned or not
+exit
+curl localhost
+docker rm -f apachecontainer
+docker rmi apache:v1
+
+###############################################
+
+mkdir /apache3
+cd /apache3
+mkdir src
+echo hello > src/index.html
+touch Dockerfile
+vim Dockerfile
+FROM         quay.io/kushalsamota/centos:latest
+MAINTAINER   kushalsamota kushalsamota@gmail.com
+LABEL        runinformation docker run -d imagename
+LABEL        info this is my testing image
+ENV          PORT 8080
+EXPOSE       80
+RUN             yum install httpd -y
+COPY           ./src      /var/www/html
+CMD            ["/usr/sbin/httpd","-D","FOREGROUND"]
+
+save the file
+docker build -t apache:v1 .
+docker images
+docker inspect apache:v1 === see the label author cmd env and expose port
+docker ps
+docker run -d --name apachecontainer -p 80:80 apache:v1
+curl localhost
+docker rm -f apachecontainer
+docker rmi apache:v1
+##################################################
+mkdir /apache4
+cd /apache4
+mkdir src
+echo hello > src/index.html
+touch Dockerfile
+vim Dockerfile
+FROM         quay.io/kushalsamota/centos:latest
+MAINTAINER   kushalsamota kushalsamota@gmail.com
+LABEL        runinformation docker run -d imagename
+LABEL        info this is my testing image
+ENV          PORT 80
+EXPOSE       80
+RUN             yum install httpd -y
+WORKDIR         /var/www/html
+COPY           ./src      /var/www/html
+CMD            ["/usr/sbin/httpd","-D","FOREGROUND"]
+
+save the file
+docker build -t apache:v1 .
+docker run -d --name apachecontainer -p 80:80 apache:v1
+curl localhost
+docker rm -f apachecontainer
+docker rmi apache:v1
+##################################################
