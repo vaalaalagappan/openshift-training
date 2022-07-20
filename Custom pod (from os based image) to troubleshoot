@@ -24,5 +24,8 @@ press q to quit from top
 ps -aux  === to see all processes
 ps -ef === to see all processes with parent processes
 cat /etc/os-release === to see the os version
+exit   == from the container
+oc delete pod centospod
+oc get pods   === centospod should not be listed as we have deleted that.
 
 You can install command in this container by yum command and troubleshoot anything related to dns,network,etc..f
