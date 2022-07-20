@@ -1,0 +1,28 @@
+Custom pod of os based image container to troubleshoot things.
+
+oc project <username of yours>
+oc project
+
+vim centospod.yaml
+==============================
+apiVersion: v1
+kind: Pod
+metadata:
+        name: centospod
+        namespace: <username of yours>
+spec:
+        containers:
+                - name: firstcontainer
+                  image: docker.io/centos:centos7
+                  command: ["/bin/sleep","365d"]
+==============================
+oc get pods -o wide --show-labels
+oc exec -it centospod bash
+top
+press shift+m to see the process which is consuming highest resources
+press q to quit from top
+ps -aux  === to see all processes
+ps -ef === to see all processes with parent processes
+cat /etc/os-release === to see the os version
+
+You can install command in this container by yum command and troubleshoot anything related to dns,network,etc..f
