@@ -1,0 +1,38 @@
+question1=>
+
+create a deployment with following details
+     name of deployment => ubuntudep
+     label => os: ubuntu
+     container name => ubuntucontainer
+     command to be executed in container when it is created in pod => sleep 365d
+     replicas => 3
+     image => docker.io/ubuntu with focal version (search on hub.docker.com)
+     
+once it is created, go to the container and run ping 8.8.8.8 and exit from the container
+
+=============================================================================================================
+question2=>
+
+create a multicontainer pod with following details in your project
+     name of pod => multipod
+     label => app: multicontainer
+     first container name => httpd container, image => docker.io/httpd
+     second container name => mysql container, image => docker.io/mysql  (version of mysql must be 5.7) (Search on hub.docker.com), root password - redhat@123
+     
+once it is created, login to mysqlcontainer then login to mysql shell and run command "show databases;" and exit from the shell and exit from the container.
+
+=============================================================================================================
+
+question3=>
+
+create a secret in your project
+     name of secret => personinfo
+     key value pairs in secret to be added
+        1. name = yourname
+        2. city = yourcity
+        3. profile = yourprofile
+
+once secret is created, edit the secret and decode the values by going on a website to https://www.base64decode.org/
+
+=============================================================================================================
+
