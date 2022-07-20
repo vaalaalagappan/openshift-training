@@ -16,6 +16,7 @@ spec:
                   image: docker.io/centos:centos7
                   command: ["/bin/sleep","365d"]
 ==============================
+oc create -f centospod.yaml
 oc get pods -o wide --show-labels
 oc exec -it centospod bash
 top
