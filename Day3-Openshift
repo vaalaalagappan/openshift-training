@@ -48,6 +48,7 @@ spec:
 =====================================
 oc create -f pod.yaml
 oc get pods
+oc logs apachepod
 oc get pods -o wide
 oc get pods --show-labels
 oc describe pod apachepod
@@ -84,6 +85,8 @@ oc create -f pod.yaml
 oc get pods === two container will be running in a pod
 oc get pods -o wide
 oc describe pod apachepod
+oc logs apachepod -c firstcontainer
+oc logs apachepod -c secondcontainer
 oc rsh apachepod
 exit
 oc exec -it apachepod -c secondcontainer bash
