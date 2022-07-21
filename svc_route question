@@ -1,0 +1,36 @@
+Question1
+
+Create a deployment with following details
+  1. deployment name = webdeployment
+  2. label on the deployment = dep: web
+  3. label on th pod = app: nginx
+  4. selector on the pod = app: nginx
+  5. two containers must be there
+      1. firstcontainer name = nginxcontainer (image - quay.io/kushalsamota/nginx)
+      2. secondcontainer name = centcontainer (image - quay.io/kushalsamota/centos) and command must be sleep 365d
+  6. replicas = 2
+  7. one env variable must be injected in both the container and i.e game: snooker
+ 
+ Create a clusterip service for the above pods so that traffic can be distributed
+ Details
+    1. servicename = websvc
+    2. selector = write the label of the pod in this field
+    3. port = 80
+    4. targetport = 80
+    5. label on service is svc: nginxsvc
+    
+  Create a route for above service
+  Details
+    1. routename = webroute
+    2. targetport = 80
+    3. service = above create service name
+    4. hostname = <yourname>.apps.labs.openshiftlabs.xyz
+  
+  Create a edge route service
+  Details
+    1. create a key and certificate with below command
+       openssl req -x509 -newkey rsa:2048 -keyout req.key -out req.crt -nodes -days 365 -subj "/CN=<yourname>.apps.labs.openshiftlabs.xyz"
+    2. execute = oc create route edge websecure --hostname=<yourfullname>.apps.labs.openshiftlabs.xyz --cert=./req.crt --key=./req.key --service=<name of service created above>
+    3. oc get route
+    4. open websecure route url in browser and go in advanced and accept the certificate and see whether it runs on https or not.
+    
