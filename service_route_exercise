@@ -1,0 +1,63 @@
+ Make sure you are logged in cluster and you can execute "oc whoami" command
+ 
+oc project <username of yours>
+oc create deployment nginx --image=docker.io/nginx
+oc scale deployment/nginx --replicas=2
+oc exec -it <podfirstname> bash
+once you are inside the shell of container
+echo "replyfrompod1" > /usr/share/nginx/html
+exit
+oc exec -it <podsecondname> bash
+once you are inside the shell of container
+echo "replyfrompod2" > /usr/share/nginx/html
+exit
+oc get pods -o wide
+oc get pods --show-label
+==========================
+vim svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginxsvc
+  namespace: <username of yours>
+spec:
+  selector:
+    <label which is applied on the pod>
+  ports:
+    - port: 80
+      targetPort: 80
+
+save the file
+=======================
+oc create -f service.yaml
+oc get svc -o wide
+oc get ep
+oc describe service <svcname>
+
+vim route.yaml
+==========================
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nginxroute
+  namespace: <username of yours>
+spec:
+  host: <username of yours>.apps.labs.openshiftlabs.xyz
+  port:
+    targetPort: 80
+  to:
+    kind: Service
+    name: <svcname>
+==============================
+
+oc create -f route.yaml
+oc get route
+oc describe route <route name>
+curl <route url>
+
+once application is giving you an output.
+oc delete route <routename>
+oc delete svc <svcname>
+oc delete deployment <deploymentname>
+oc get all
+
