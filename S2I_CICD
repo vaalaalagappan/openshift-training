@@ -1,0 +1,25 @@
+oc project <username of yours>
+yum install git -y
+oc new-app https://github.com/kushalsamota/Openshift_PHP.git
+oc get all
+oc get svc
+oc expose service <nameofservice>
+oc get route
+oc describe route <routename>
+oc describe service <servicename>
+open route url in web browser..
+oc get route
+oc delete route <routename>
+oc get deployment
+oc delete deployment <deploymentname>
+oc get service
+oc delete service <nameofservicename>
+oc get svc
+oc delete is isname === is is image stream
+oc get buildconfig
+oc delete buildconfig <buildconfigname>
+oc get all === nothing should be present in project
+
+
+Question 2 -- Create a github repository and create a index.php file in github and write some basic code into it.
+Do all the steps written above, just change the repository url in oc new-app command
