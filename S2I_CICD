@@ -32,6 +32,7 @@ oc project <username of yours>
 yum install git -y
 oc new-app https://github.com/kushalsamota/Openshift-Dockerfile.git
 oc get all
+oc expose deployment <nameofdeployment> --port=80
 oc get svc
 oc expose service <nameofservice>
 oc get route
@@ -42,7 +43,6 @@ oc get route
 oc delete route <routename>
 oc get deployment
 oc delete deployment <deploymentname>
-oc get service
 oc delete service <nameofservicename>
 oc get svc
 oc delete is isname === is is image stream
